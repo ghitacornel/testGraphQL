@@ -7,6 +7,8 @@ import graphql.kickstart.spring.webclient.boot.GraphQLResponse;
 import graphql.kickstart.spring.webclient.boot.GraphQLWebClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,19 +17,23 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
-//@SpringBootTest(
-//        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
-//        properties = {
-//                "server.port=8080"
-//        })
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        properties = {
+                "server.port=8080"
+        })
 public class VehiclesTest {
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    ServerProperties serverProperties;
 
     @Test
     public void findAll() throws IOException {
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:" + "8080" + "/graphql")
+                .baseUrl("http://localhost:" + serverProperties.getPort() + "/graphql")
                 .build();
 
         GraphQLWebClient graphQLWebClient = GraphQLWebClient.newInstance(webClient, objectMapper);
