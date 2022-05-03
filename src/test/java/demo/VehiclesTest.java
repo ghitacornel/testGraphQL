@@ -55,6 +55,10 @@ public class VehiclesTest {
                     .block();
             vehicle = entity.getFirst(Vehicle.class);
             Assertions.assertThat(vehicle).isNotNull();
+            Assertions.assertThat(vehicle.getId()).isNotNull();
+            Assertions.assertThat(vehicle.getBrandName()).isEqualTo("dacia");
+            Assertions.assertThat(vehicle.getType()).isEqualTo("A");
+            Assertions.assertThat(vehicle.getModelCode()).isEqualTo("1310");
         }
 
         {
@@ -62,7 +66,12 @@ public class VehiclesTest {
                             .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "findById.graphql").toAbsolutePath()))
                             .variables(Map.of("id", vehicle.getId())).build())
                     .block();
-            Assertions.assertThat(entity.getFirst(Vehicle.class)).isNotNull();
+            vehicle = entity.getFirst(Vehicle.class);
+            Assertions.assertThat(vehicle).isNotNull();
+            Assertions.assertThat(vehicle.getId()).isNotNull();
+            Assertions.assertThat(vehicle.getBrandName()).isEqualTo("dacia");
+            Assertions.assertThat(vehicle.getType()).isEqualTo("A");
+            Assertions.assertThat(vehicle.getModelCode()).isEqualTo("1310");
         }
     }
 }

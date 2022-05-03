@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class VehicleMutation implements GraphQLMutationResolver {
     private final VehicleService vehicleService;
 
-    public Vehicle createVehicle(String modelCode, String type, String brandName) {
+    public Vehicle createVehicle(String brandName, String modelCode, String type) {
         return vehicleService.createVehicle(type, modelCode, brandName);
     }
 }
