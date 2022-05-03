@@ -13,21 +13,25 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class VehicleService {
-    private final VehicleRepository vehicleRepository;
+    private final VehicleRepository repository;
 
     public Vehicle createVehicle(String type, String modelCode, String brandName) {
         Vehicle vehicle = new Vehicle();
         vehicle.setType(type);
         vehicle.setModelCode(modelCode);
         vehicle.setBrandName(brandName);
-        return vehicleRepository.save(vehicle);
+        return repository.save(vehicle);
     }
 
     public List<Vehicle> findAll() {
-        return vehicleRepository.findAll();
+        return repository.findAll();
     }
 
     public Optional<Vehicle> findById(Long id) {
-        return vehicleRepository.findById(id);
+        return repository.findById(id);
+    }
+
+    public void removeVehicle(Long id) {
+        repository.deleteById(id);
     }
 }

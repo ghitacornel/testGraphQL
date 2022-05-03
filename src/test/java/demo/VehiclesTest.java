@@ -73,5 +73,23 @@ public class VehiclesTest {
             Assertions.assertThat(vehicle.getType()).isEqualTo("A");
             Assertions.assertThat(vehicle.getModelCode()).isEqualTo("1310");
         }
+
+        {
+            GraphQLResponse entity = graphQLWebClient.post(GraphQLRequest.builder()
+                            .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "deleteById.graphql").toAbsolutePath()))
+                            .variables(Map.of("id", vehicle.getId())).build())
+                    .block();
+            Long id = entity.getFirst(Long.class);
+            Assertions.assertThat(id).isEqualTo(vehicle.getId());
+        }
+
+        {
+            GraphQLResponse entity = graphQLWebClient.post(GraphQLRequest.builder()
+                            .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "findById.graphql").toAbsolutePath()))
+                            .variables(Map.of("id", vehicle.getId())).build())
+                    .block();
+            vehicle = entity.getFirst(Vehicle.class);
+            Assertions.assertThat(vehicle).isNull();
+        }
     }
 }

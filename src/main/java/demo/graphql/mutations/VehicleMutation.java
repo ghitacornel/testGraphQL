@@ -9,9 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class VehicleMutation implements GraphQLMutationResolver {
-    private final VehicleService vehicleService;
+    private final VehicleService service;
 
     public Vehicle createVehicle(String brandName, String modelCode, String type) {
-        return vehicleService.createVehicle(type, modelCode, brandName);
+        return service.createVehicle(type, modelCode, brandName);
+    }
+
+    public Long removeVehicle(Long id) {
+        service.removeVehicle(id);
+        return id;
     }
 }
