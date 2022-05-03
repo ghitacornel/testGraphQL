@@ -6,6 +6,7 @@ import graphql.kickstart.spring.webclient.boot.GraphQLRequest;
 import graphql.kickstart.spring.webclient.boot.GraphQLResponse;
 import graphql.kickstart.spring.webclient.boot.GraphQLWebClient;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VehiclesTest {
 
     @Autowired
@@ -26,18 +26,43 @@ public class VehiclesTest {
     @Autowired
     ServletWebServerApplicationContext webServerAppCtxt;
 
-    @Test
-    public void findAll() throws IOException {
+    GraphQLWebClient graphQLWebClient;
+
+    @BeforeEach
+    public void setUp() {
         WebClient webClient = WebClient.builder()
                 .baseUrl("http://localhost:" + webServerAppCtxt.getWebServer().getPort() + "/graphql")
                 .build();
+        graphQLWebClient = GraphQLWebClient.newInstance(webClient, objectMapper);
+    }
 
-        GraphQLWebClient graphQLWebClient = GraphQLWebClient.newInstance(webClient, objectMapper);
+    @Test
+    public void testCreateRead() throws IOException {
 
-        GraphQLResponse entity = graphQLWebClient.post(GraphQLRequest.builder()
-                        .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "findById.graphql").toAbsolutePath()))
-                        .variables(Map.of("id", "1")).build())
-                .block();
-        Assertions.assertThat(entity.getFirst(Vehicle.class)).isNull();
+        {
+            GraphQLResponse entity = graphQLWebClient.post(GraphQLRequest.builder()
+                            .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "findAll.graphql").toAbsolutePath()))
+                            .build())
+                    .block();
+            Assertions.assertThat(entity.getFirstList(Vehicle.class)).isEmpty();
+        }
+
+        Vehicle vehicle;
+        {
+            GraphQLResponse entity = graphQLWebClient.post(GraphQLRequest.builder()
+                            .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "createVehicle.graphql").toAbsolutePath()))
+                            .variables(Map.of("modelCode", "1310", "type", "A", "brandName", "dacia")).build())
+                    .block();
+            vehicle = entity.getFirst(Vehicle.class);
+            Assertions.assertThat(vehicle).isNotNull();
+        }
+
+        {
+            GraphQLResponse entity = graphQLWebClient.post(GraphQLRequest.builder()
+                            .query(Files.readString(Paths.get("src", "test", "resources", "graphql", "findById.graphql").toAbsolutePath()))
+                            .variables(Map.of("id", vehicle.getId())).build())
+                    .block();
+            Assertions.assertThat(entity.getFirst(Vehicle.class)).isNotNull();
+        }
     }
 }
