@@ -3,13 +3,13 @@ type Mutation {
 }
 
 type Query {
-    findById(id: Int): Vehicle
+    findById(id: Int!): Vehicle
     findAll: [Vehicle]
 }
 
 type Vehicle {
-    brandName: String
     id: Int!
+    brandName: String
     modelCode: String
     type: String
 }
