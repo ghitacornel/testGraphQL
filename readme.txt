@@ -4,7 +4,7 @@ http://localhost:8080/graphql
 --QUERY
 
 query ExampleQuery {
-  vehicles {
+  findAll {
     id
     brandName
     modelCode

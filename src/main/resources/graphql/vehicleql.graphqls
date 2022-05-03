@@ -3,8 +3,8 @@ type Mutation {
 }
 
 type Query {
-    vehicle(id: Int): Vehicle
-    vehicles: [Vehicle]
+    findById(id: Int): Vehicle
+    findAll: [Vehicle]
 }
 
 type Vehicle {

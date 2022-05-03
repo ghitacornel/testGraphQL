@@ -14,11 +14,11 @@ import java.util.Optional;
 public class VehicleQuery implements GraphQLQueryResolver {
     private final VehicleService vehicleService;
 
-    public List<Vehicle> vehicles() {
-        return vehicleService.getAllVehicles();
+    public List<Vehicle> findAll() {
+        return vehicleService.findAll();
     }
 
-    public Optional<Vehicle> vehicle(Long id) {
-        return vehicleService.getVehicle(id);
+    public Optional<Vehicle> findById(Long id) {
+        return vehicleService.findById(id);
     }
 }
