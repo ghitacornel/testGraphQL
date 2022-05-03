@@ -1,4 +1,4 @@
-package demo.daos.entities;
+package demo.repositories.entities;
 
 import lombok.Getter;
 import lombok.Setter;

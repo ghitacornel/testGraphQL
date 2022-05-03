@@ -1,7 +1,7 @@
-package demo.queries;
+package demo.graphql.queries;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import demo.daos.entities.Vehicle;
+import demo.repositories.entities.Vehicle;
 import demo.services.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
-package demo.mutations;
+package demo.graphql.mutations;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import demo.daos.entities.Vehicle;
+import demo.repositories.entities.Vehicle;
 import demo.services.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

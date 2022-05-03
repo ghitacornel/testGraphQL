@@ -1,12 +1,11 @@
 package demo.services;
 
-import demo.daos.repositories.VehicleRepository;
-import demo.daos.entities.Vehicle;
+import demo.repositories.VehicleRepository;
+import demo.repositories.entities.Vehicle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
