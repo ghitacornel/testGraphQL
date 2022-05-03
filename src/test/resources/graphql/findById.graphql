@@ -1,0 +1,8 @@
+query ExampleQuery($id: Int!) {
+    findById(id : $id) {
+        id
+        brandName
+        modelCode
+        type
+    }
+}

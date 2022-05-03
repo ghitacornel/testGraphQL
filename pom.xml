@@ -58,6 +58,13 @@
             <artifactId>hsqldb</artifactId>
         </dependency>
 
+        <!-- Clients -->
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-webclient-spring-boot-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- TESTS -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
